@@ -9,6 +9,8 @@ import { OrganizationModule } from './organization/organization.module';
 import { EventModule } from './event/event.module';
 import { AuthModule } from './auth/auth.module';
 import { BudgetModule } from './budget/budget.module';
+import { ExcelModule } from './excel/excel.module';
+import { ExcelController } from './excel/excel.controller';
 
 @Module({
   imports: [
@@ -20,8 +22,9 @@ import { BudgetModule } from './budget/budget.module';
     EventModule,
     AuthModule,
     BudgetModule,
+    ExcelModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, ExcelController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -106,6 +106,7 @@ const BudgetPage = () => {
           organizationId,
           onSuccess: handleSuccess,
         }}
+        organizationId={organizationId}
       />
     </div>
   );
