@@ -10,6 +10,9 @@ export class RegisterDto {
   @IsString()
   @MinLength(6)
   password: string;
+
+  @IsString()
+  verificationCode: string;
 }
 
 export class LoginDto {

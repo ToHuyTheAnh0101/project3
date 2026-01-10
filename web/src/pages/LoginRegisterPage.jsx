@@ -3,12 +3,6 @@ import AuthModal from "../components/auth/AuthModal";
 const LoginRegisterPage = () => {
   return (
     <div className="relative min-h-screen">
-      {/* Logo */}
-      <img
-        src="/assets/logo.png"
-        alt="logo"
-        className="absolute w-52 top-20 left-1/2 -translate-x-1/2 z-10"
-      />
 
       {/* Decorative images */}
       <img
