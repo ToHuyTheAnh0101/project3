@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import { useParams } from "react-router-dom";
 import request from "../api/httpClient";
@@ -15,7 +15,7 @@ const HumanResourcePage = () => {
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState(null);
 
-  const fetchStaffs = async () => {
+  const fetchStaffs = useCallback(async () => {
     setLoading(true);
     try {
       const res = await request("get", `/staffs?organizationId=${organizationId}`);
@@ -26,11 +26,11 @@ const HumanResourcePage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [organizationId]);
 
   useEffect(() => {
     fetchStaffs();
-  }, []);
+  }, [organizationId, fetchStaffs]);
 
   const handleInviteSuccess = async () => {
     await fetchStaffs();

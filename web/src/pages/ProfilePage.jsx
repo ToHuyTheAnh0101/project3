@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import request from "../api/httpClient";
 
-const DEFAULT_AVATAR =
-  "https://static.xx.fbcdn.net/rsrc.php/v3/yi/r/3rR6G5Aif5R.png";
-
 const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);

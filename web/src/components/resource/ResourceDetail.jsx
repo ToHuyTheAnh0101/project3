@@ -17,7 +17,6 @@ const ResourceDetail = ({ resourceId, onBack, onSave }) => {
     note: "",
     sessions: [],
   });
-  const [typeFilter, setTypeFilter] = useState("");
 
   const [loading, setLoading] = useState(false);
 

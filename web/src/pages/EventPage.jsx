@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import { useParams, useNavigate, Outlet } from "react-router-dom";
 import request from "../api/httpClient";
@@ -13,25 +13,26 @@ const EventPage = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  const fetchEvents = async () => {
-    if (!organizationId) return;
-    setLoading(true);
-    try {
-      const res = await request(
-        "get",
-        `/events/organization/${organizationId}`
-      );
-      setEvents(res.data);
-    } catch {
-      toast.error("Lấy danh sách sự kiện thất bại");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const fetchEvents = useCallback(async () => {
+  if (!organizationId) return;
+  setLoading(true);
+  try {
+    const res = await request(
+      "get",
+      `/events/organization/${organizationId}`
+    );
+    setEvents(res.data);
+  } catch {
+    toast.error("Lấy danh sách sự kiện thất bại");
+  } finally {
+    setLoading(false);
+  }
+}, [organizationId]);
+
 
   useEffect(() => {
     fetchEvents();
-  }, [organizationId]);
+  }, [organizationId, fetchEvents]);
 
   const groupedEvents = {
     draft: [],
