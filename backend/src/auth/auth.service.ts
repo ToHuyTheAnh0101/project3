@@ -11,21 +11,83 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Auth } from './auth.schema';
 import { RegisterDto, LoginDto, ChangePasswordDto } from './auth.dto';
+import { MailService } from '../util/mail.service';
 
 @Injectable()
 export class AuthService {
+  // In-memory storage for verification codes
+  private verificationCodes = new Map<
+    string,
+    { code: string; expiresAt: Date }
+  >();
+
   constructor(
     @InjectModel(Auth.name) private authModel: Model<Auth>,
     private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
+  // Generate and store verification code
+  async sendVerificationCode(email: string): Promise<{ message: string }> {
+    const existing = await this.authModel.findOne({ email });
+    if (existing) {
+      throw new BadRequestException('Email này đã được sử dụng');
+    }
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 60 * 1000); // 1 minute from now
+
+    this.verificationCodes.set(email, { code, expiresAt });
+
+    // Send email
+    try {
+      await this.mailService.sendVerificationEmail(email, code);
+    } catch (error) {
+      console.error('Lỗi gửi email:', error);
+    }
+
+    return { message: 'Mã xác nhận đã được gửi đến email của bạn' };
+  }
+
+  // Verify the code
+  private verifyCode(email: string, code: string): boolean {
+    const stored = this.verificationCodes.get(email);
+    if (!stored) {
+      return false;
+    }
+
+    // Check if expired
+    if (new Date() > stored.expiresAt) {
+      this.verificationCodes.delete(email);
+      return false;
+    }
+
+    // Check if code matches
+    if (stored.code !== code) {
+      return false;
+    }
+
+    // Code is valid, remove it
+    this.verificationCodes.delete(email);
+    return true;
+  }
+
   async register(dto: RegisterDto): Promise<Auth> {
+    // Verify the verification code
+    if (
+      !dto.verificationCode ||
+      !this.verifyCode(dto.email, dto.verificationCode)
+    ) {
+      throw new BadRequestException('Mã xác nhận không hợp lệ hoặc đã hết hạn');
+    }
+
     const existing = await this.authModel.findOne({ email: dto.email });
     if (existing) throw new BadRequestException('Email này đã được sử dụng');
 
     const hashed = await bcrypt.hash(dto.password, 10);
     const newAuth = new this.authModel({
       email: dto.email,
+      name: dto.name,
       password: hashed,
     });
     return newAuth.save();

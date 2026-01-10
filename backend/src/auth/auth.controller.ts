@@ -20,6 +20,11 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Post('send-verification')
+  sendVerification(@Body('email') email: string) {
+    return this.authService.sendVerificationCode(email);
+  }
+
   @Post('register')
   register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);

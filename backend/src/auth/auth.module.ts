@@ -8,6 +8,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { Staff, StaffSchema } from '../staff/staff.schema';
 import { RolesGuard } from './roles.guard';
 import { Reflector } from '@nestjs/core';
+import { MailService } from '../util/mail.service';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { Reflector } from '@nestjs/core';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, RolesGuard, Reflector],
+  providers: [AuthService, JwtStrategy, RolesGuard, Reflector, MailService],
   exports: [AuthService, RolesGuard],
 })
 export class AuthModule {}
