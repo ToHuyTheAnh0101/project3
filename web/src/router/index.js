@@ -15,7 +15,7 @@ import OrganizationSettingsPage from "../pages/OrganizationSettingsPage";
 export const AppRoutes = () => (
   <Routes>
     <Route
-      path="/auth"
+      path="/"
       element={
         <AuthLayout>
           <LoginRegisterPage />
