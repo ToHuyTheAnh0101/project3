@@ -2,22 +2,13 @@ import AuthModal from "../components/auth/AuthModal";
 
 const LoginRegisterPage = () => {
   return (
-    <div className="relative min-h-screen">
-
-      {/* Decorative images */}
-      <img
-        src="/assets/bgr_login_1.png"
-        alt=""
-        className="absolute w-[450px] top-[210px] left-[110px] z-0"
-      />
-      <img
-        src="/assets/bgr_login_2.png"
-        alt=""
-        className="absolute w-[450px] bottom-[150px] right-[130px] z-0"
-      />
-
-      {/* Auth Modal */}
-      <AuthModal />
+    <div className="relative min-h-screen bg-[#f0f2f5] flex items-center justify-center">
+      <div className="text-center flex flex-col items-center gap-4">
+        <h1 className="text-2xl font-bold text-gray-800">
+          Hệ thống quản lý sự kiện Evora
+        </h1>
+        <AuthModal />
+      </div>
     </div>
   );
 };

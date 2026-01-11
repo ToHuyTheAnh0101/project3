@@ -45,15 +45,15 @@ const Topbar = () => {
     localStorage.removeItem("access_token");
     toast.success("Đăng xuất thành công!");
 
-    navigate("/auth");
+    navigate("/");
   };
 
   return (
     <div className="flex justify-between items-center h-[60px] bg-white px-5 shadow sticky top-0 z-10">
       {/* Left side */}
-      <div className="flex items-end gap-3">
-        <img src="/assets/logo.png" alt="Logo" className="h-9 w-24 object-contain" />
-        <span className="text-lg font-semibold text-gray-800">
+      <div className="flex items-center">
+        <img src="/assets/logo.png" alt="Logo" className="h-12 w-12 object-contain" />
+        <span className="text-lg font-semibold text-blue-950">
           Hệ thống quản lý sự kiện
         </span>
       </div>

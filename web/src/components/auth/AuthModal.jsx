@@ -60,7 +60,7 @@ const AuthModal = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-[#f0f2f5]">
+    <div className="flex justify-center items-center bg-[#f0f2f5]">
       <div className="bg-white p-8 rounded-xl shadow-xl w-[350px] text-center">
         <h2 className="text-2xl font-semibold mb-5">
           {isLogin ? "Đăng nhập" : "Đăng ký"}
